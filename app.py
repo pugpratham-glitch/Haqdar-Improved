@@ -4,14 +4,17 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-# Comprehensive Master Mock Database covering States, Welfare, Scholarships, and Exams
+# Comprehensive Pan-India Master Database with State-Specific Schemes & Direct Portals
 MASTER_DATABASE = [
+    # --- ALL INDIA ---
     {
         "id": "unia-01",
         "title": {
             "en": "UPSC Civil Services Examination Support & Fee Exemption",
             "hi": "यूपीएससी सिविल सेवा परीक्षा सहायता और शुल्क छूट",
-            "mr": "यूपीएससी नागरी सेवा परीक्षा सहाय्य आणि शुल्क सूट"
+            "mr": "यूपीएससी नागरी सेवा परीक्षा सहाय्य आणि शुल्क सूट",
+            "bn": "ইউপিএসসি সিভিল সার্ভিস পরীক্ষা সহায়তা এবং ফি ছাড়",
+            "ta": "யுபிஎஸ்சி குடிமைப்பணி தேர்வு ஆதரவு மற்றும் கட்டண விலக்கு"
         },
         "category": "All",
         "state": "All India",
@@ -39,8 +42,7 @@ MASTER_DATABASE = [
         "income_limit": 450000,
         "description": {
             "en": "Central sector scholarship for college and university students.",
-            "hi": "कॉलेज और विश्वविद्यालय के छात्रों के लिए केंद्रीय क्षेत्र की छात्रवृत्ति।",
-            "mr": "कॉलेज आणि विद्यापीठ विद्यार्थ्यांसाठी केंद्रीय क्षेत्र शिष्यवृत्ती।"
+            "hi": "कॉलेज और विश्वविद्यालय के छात्रों के लिए केंद्रीय क्षेत्र की छात्रवृत्ति।"
         },
         "link": "https://scholarships.gov.in/"
     },
@@ -49,7 +51,7 @@ MASTER_DATABASE = [
         "title": {
             "en": "Pradhan Mantri Awas Yojana (PMAY) - Housing for All",
             "hi": "प्रधानमंत्री आवास योजना (पीएमएवाई) - सभी के लिए आवास",
-            "mr": "प्रधानमंत्री आवास योजना (पीएमएवाय) - सर्वांसाठी घरे"
+            "mr": "प्रधानमंत्री आवास योजना (पीएमएवाय)"
         },
         "category": "All",
         "state": "All India",
@@ -58,11 +60,11 @@ MASTER_DATABASE = [
         "income_limit": 600000,
         "description": {
             "en": "Central credit-linked subsidy scheme for building or buying affordable houses.",
-            "hi": "किफायती मकान बनाने या खरीदने के लिए केंद्रीय ऋण-संबद्ध सब्सिडी योजना।",
-            "mr": "परवडणारी घरे बांधण्यासाठी किंवा खरेदी करण्यासाठी केंद्रीय अनुदान योजना।"
+            "hi": "किफायती मकान बनाने या खरीदने के लिए केंद्रीय ऋण-संबद्ध सब्सिडी योजना।"
         },
         "link": "https://pmaymis.gov.in/"
     },
+    # --- MAHARASHTRA ---
     {
         "id": "mah-04",
         "title": {
@@ -77,7 +79,6 @@ MASTER_DATABASE = [
         "income_limit": 250000,
         "description": {
             "en": "State-backed financial assistance for post-matriculation studies in Maharashtra.",
-            "hi": "महाराष्ट्र में पोस्ट-मैट्रिक पढ़ाई के लिए राज्य समर्थित वित्तीय सहायता।",
             "mr": "महाराष्ट्रातील उत्तर-मॅट्रिक अभ्यासासाठी राज्य-समर्थित आर्थिक सहाय्य."
         },
         "link": "https://mahadbtmahadbt.gov.in/"
@@ -85,7 +86,7 @@ MASTER_DATABASE = [
     {
         "id": "mah-05",
         "title": {
-            "en": "Mahatma Jyotirao Phule Jan Arogya Yojana (Health Insurance)",
+            "en": "Mahatma Jyotirao Phule Jan Arogya Yojana (Cashless Health Insurance)",
             "hi": "महात्मा ज्योतिराव फुले जन आरोग्य योजना (स्वास्थ्य बीमा)",
             "mr": "महात्मा ज्योतिराव फुले जन आरोग्य योजना"
         },
@@ -96,15 +97,15 @@ MASTER_DATABASE = [
         "income_limit": 1000000,
         "description": {
             "en": "Cashless health insurance coverage for eligible families in Maharashtra.",
-            "hi": "महाराष्ट्र में पात्र परिवारों के लिए कैशलेस स्वास्थ्य बीमा कवरेज।",
             "mr": "महाराष्ट्रातील पात्र कुटुंबांसाठी कॅशलेस आरोग्य विमा संरक्षण."
         },
         "link": "https://www.jeevandayee.gov.in/"
     },
+    # --- UTTAR PRADESH ---
     {
         "id": "up-06",
         "title": {
-            "en": "UP Chief Minister Fellowship Program",
+            "en": "UP Chief Minister Fellowship Program for Aspirants",
             "hi": "यूपी मुख्यमंत्री फेलोशिप कार्यक्रम",
             "mr": "यूपी मुख्यमंत्री फेलोशिप कार्यक्रम"
         },
@@ -115,15 +116,14 @@ MASTER_DATABASE = [
         "income_limit": 1000000,
         "description": {
             "en": "Research and governance fellowship supporting young professionals in UP.",
-            "hi": "यूपी में युवा पेशेवरों का समर्थन करने वाली अनुसंधान और शासन फेलोशिप।",
-            "mr": "यूपीमधील तरुण व्यावसायिकांचे समर्थन करणारी संशोधन आणि प्रशासन शिष्यवृत्ती."
+            "hi": "यूपी में युवा पेशेवरों का समर्थन करने वाली अनुसंधान और शासन फेलोशिप।"
         },
         "link": "https://up.gov.in/"
     },
     {
         "id": "up-07",
         "title": {
-            "en": "UP Matritva Sahyog Yojana (Maternity Welfare)",
+            "en": "UP Matritva Sahyog Yojana (Maternity Welfare Support)",
             "hi": "यूपी मातृत्व सहयोग योजना (मातृत्व कल्याण)",
             "mr": "यूपी मातृत्व सहयोग योजना"
         },
@@ -133,12 +133,12 @@ MASTER_DATABASE = [
         "age_limit": 45,
         "income_limit": 300000,
         "description": {
-            "en": "Financial assistance for pregnant and lactating mothers for health nutrition.",
-            "hi": "स्वास्थ्य पोषण के लिए गर्भवती और स्तनपान कराने वाली माताओं के लिए वित्तीय सहायता।",
-            "mr": "आरोग्य पोषणासाठी गर्भवती आणि स्तनपान करणाऱ्या मातांना आर्थिक मदत."
+            "en": "Financial assistance for pregnant and lactating mothers for health nutrition in UP.",
+            "hi": "स्वास्थ्य पोषण के लिए गर्भवती और स्तनपान कराने वाली माताओं के लिए वित्तीय सहायता।"
         },
         "link": "https://up.gov.in/"
     },
+    # --- DELHI ---
     {
         "id": "del-08",
         "title": {
@@ -153,10 +153,66 @@ MASTER_DATABASE = [
         "income_limit": 600000,
         "description": {
             "en": "Education loan scheme backed by the Delhi government for higher studies.",
-            "hi": "उच्च अध्ययन के लिए दिल्ली सरकार द्वारा समर्थित शिक्षा ऋण योजना।",
-            "mr": "उच्च अभ्यासासाठी दिल्ली सरकारद्वारे समर्थित शिक्षण कर्ज योजना."
+            "hi": "उच्च अध्ययन के लिए दिल्ली सरकार द्वारा समर्थित शिक्षा ऋण योजना।"
         },
         "link": "https://delhi.gov.in/"
+    },
+    # --- KARNATAKA ---
+    {
+        "id": "kar-09",
+        "title": {
+            "en": "Karnataka Vidyasiri Scholarship Scheme",
+            "hi": "कर्नाटक विद्याश्री छात्रवृत्ति योजना",
+            "mr": "कर्नाटक विद्याश्री शिष्यवृत्ती योजना"
+        },
+        "category": "OBC",
+        "state": "Karnataka",
+        "type": "Scholarship",
+        "age_limit": 25,
+        "income_limit": 250000,
+        "description": {
+            "en": "Food and accommodation scholarship assistance for backward class students in Karnataka.",
+            "hi": "कर्नाटक में पिछड़े वर्ग के छात्रों के लिए भोजन और आवास छात्रवृत्ति सहायता।"
+        },
+        "link": "https://ssp.karnataka.gov.in/"
+    },
+    # --- TAMIL NADU ---
+    {
+        "id": "tn-10",
+        "title": {
+            "en": "Tamil Nadu Pudhumai Penn Higher Education Assurance Scheme",
+            "hi": "तमिलनाडु पुधुमाई पेन उच्च शिक्षा आश्वासन योजना",
+            "mr": "तमिळनाडू पुधुमाई पेन उच्च शिक्षण योजना"
+        },
+        "category": "All",
+        "state": "Tamil Nadu",
+        "type": "Scholarship",
+        "age_limit": 24,
+        "income_limit": 800000,
+        "description": {
+            "en": "Financial incentive of monthly stipend for girl students transitioning from school to college in TN.",
+            "hi": "तमिलनाडु में स्कूल से कॉलेज जाने वाली छात्राओं के लिए मासिक वजीफे की वित्तीय प्रोत्साहन योजना।"
+        },
+        "link": "https://www.tn.gov.in/"
+    },
+    # --- BIHAR ---
+    {
+        "id": "bih-11",
+        "title": {
+            "en": "Bihar Student Credit Card Scheme",
+            "hi": "बिहार स्टूडेंट क्रेडिट कार्ड योजना",
+            "mr": "बिहार स्टुडंट क्रेडिट कार्ड योजना"
+        },
+        "category": "All",
+        "state": "Bihar",
+        "type": "Welfare Scheme",
+        "age_limit": 30,
+        "income_limit": 800000,
+        "description": {
+            "en": "Education loan up to 4 Lakhs at minimal interest for higher education in Bihar.",
+            "hi": "बिहार में उच्च शिक्षा के लिए न्यूनतम ब्याज पर 4 लाख तक का शिक्षा ऋण।"
+        },
+        "link": "https://www.7nishchay-yuvaupmission.bihar.gov.in/"
     }
 ]
 
@@ -168,7 +224,7 @@ def home():
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Haqdar - National Welfare & Scheme Matcher</title>
+    <title>Haqdar - Pan-India Scheme Matcher</title>
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -188,7 +244,7 @@ def home():
             const [matches, setMatches] = React.useState([]);
             const [loading, setLoading] = React.useState(false);
 
-            // UI Translation Dictionary
+            // Comprehensive Multi-Language Dictionary
             const uiText = {
                 en: {
                     title: "Haqdar",
@@ -205,7 +261,7 @@ def home():
                     noResults: "No opportunities loaded yet. Run a search above.",
                     domicile: "Domicile",
                     cat: "Category",
-                    portal: "Official Portal ↗",
+                    portal: "Official Government Portal ↗",
                     types: { All: "All Types", Scholarship: "Scholarship", "Competitive Exam": "Competitive Exam", "Welfare Scheme": "Social Welfare Scheme" }
                 },
                 hi: {
@@ -223,7 +279,7 @@ def home():
                     noResults: "अभी तक कोई अवसर लोड नहीं हुआ है। ऊपर खोज चलाएं।",
                     domicile: "मूल निवास",
                     cat: "श्रेणी",
-                    portal: "आधिकारिक पोर्टल ↗",
+                    portal: "आधिकारिक सरकारी पोर्टल ↗",
                     types: { All: "सभी प्रकार", Scholarship: "छात्रवृत्ति", "Competitive Exam": "प्रतियोगी परीक्षा", "Welfare Scheme": "सामाजिक कल्याण योजना" }
                 },
                 mr: {
@@ -241,14 +297,49 @@ def home():
                     noResults: "अद्याप कोणतीही संधी लोड केलेली नाही. वर शोध चालवा.",
                     domicile: "अधिवास",
                     cat: "प्रवर्ग",
-                    portal: "अधिकृत संकेतस्थळ ↗",
+                    portal: "अधिकृत शासकीय संकेतस्थळ ↗",
                     types: { All: "सर्व प्रकार", Scholarship: "शिष्यवृत्ती", "Competitive Exam": "स्पर्धा परीक्षा", "Welfare Scheme": "समाज कल्याण योजना" }
+                },
+                bn: {
+                    title: "হকদার",
+                    subtitle: "সর্বভারতীয় স্কিম, পরীক্ষা এবং স্কলারশিপ ইঞ্জিন",
+                    langLabel: "ভাষা:",
+                    age: "বয়স",
+                    income: "বার্ষিক আয় (INR)",
+                    state: "রাজ্য / কেন্দ্রশাসিত অঞ্চল",
+                    category: "জাতি / বিভাগ",
+                    type: "সুযোগের ধরন",
+                    searchBtn: "সমস্ত যোগ্য সুযোগ খুঁজুন",
+                    searching: "নীতি স্ক্যান করা হচ্ছে...",
+                    results: "যোগ্য সুযোগসমূহ",
+                    noResults: "কোনো সুযোগ লোড করা হয়নি। উপরে একটি অনুসন্ধান চালান।",
+                    domicile: "বাসস্থান",
+                    cat: "বিভাগ",
+                    portal: "অফিসিয়াল পোর্টাল ↗",
+                    types: { All: "সমস্ত ধরন", Scholarship: "স্কলারশিপ", "Competitive Exam": "প্রতিযোগিতামূলক পরীক্ষা", "Welfare Scheme": "সমাজকল্যাণ স্কিম" }
+                },
+                ta: {
+                    title: "ஹக்தார்",
+                    subtitle: "அனைத்திந்திய திட்டங்கள், தேர்வுகள் மற்றும் உதவித்தொகை இயந்திரம்",
+                    langLabel: "மொழி:",
+                    age: "வயது",
+                    income: "ஆண்டு வருமானம் (INR)",
+                    state: "மாநிலம்",
+                    category: "பிரிவு",
+                    type: "வாய்ப்பு வகை",
+                    searchBtn: "தகுதியான வாய்ப்புகளைத் தேடுங்கள்",
+                    searching: "கொள்கைகளை ஸ்கேன் செய்கிறது...",
+                    results: "தகுதியான வாய்ப்புகள்",
+                    noResults: "வாய்ப்புகள் எதுவும் ஏற்றப்படவில்லை. மேலே தேடவும்.",
+                    domicile: "குடியிருப்பு",
+                    cat: "வகை",
+                    portal: "அதிகாரப்பூர்வ தளம் ↗",
+                    types: { All: "அனைத்தும்", Scholarship: "உதவித்தொகை", "Competitive Exam": "போட்டித் தேர்வு", "Welfare Scheme": "நலத்திட்டம்" }
                 }
             };
 
             const t = uiText[lang] || uiText['en'];
 
-            // All 28 States & 8 UTs of India
             const indianStates = [
                 "All India", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", 
                 "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", 
@@ -265,11 +356,7 @@ def home():
                 { code: 'hi', name: 'हिन्दी (Hindi)' },
                 { code: 'mr', name: 'मराठी (Marathi)' },
                 { code: 'bn', name: 'বাংলা (Bengali)' },
-                { code: 'te', name: 'తెలుగు (Telugu)' },
-                { code: 'ta', name: 'தமிழ் (Tamil)' },
-                { code: 'gu', name: 'ગુજરાતી (Gujarati)' },
-                { code: 'kn', name: 'ಕನ್ನಡ (Kannada)' },
-                { code: 'pa', name: 'ਪੰਜਾਬੀ (Punjabi)' }
+                { code: 'ta', name: 'தமிழ் (Tamil)' }
             ];
 
             const handleSearch = async (e) => {
@@ -408,13 +495,9 @@ def match_opportunities():
 
     filtered = []
     for item in MASTER_DATABASE:
-        # Check eligibility limits
         if age <= item["age_limit"] and income <= item["income_limit"]:
-            # Check state matching (All India matches everywhere, or exact state match)
             if item["state"] == "All India" or item["state"] == state:
-                # Check category matching
                 if item["category"] == "All" or item["category"] == category or category == "All":
-                    # Check type filter
                     if scheme_type == "All" or item["type"] == scheme_type:
                         filtered.append(item)
 
