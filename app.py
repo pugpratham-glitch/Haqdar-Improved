@@ -1,4 +1,6 @@
 import hashlib
+import time
+from collections import Counter
 from datetime import date, timedelta
 
 from flask import Flask, jsonify, request, Response
@@ -6,6 +8,20 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
+
+# =====================================================================================
+# ANALYTICS LOG (Member 5 — Quantitative Analytics & Simulation Lead)
+# In-memory log of every /api/match query. Each entry captures the query parameters,
+# the measured backend latency, and whether the query returned at least one match.
+# This directly powers the /api/analytics route used for the Focus Group & Simulation
+# Protocol: query frequencies, latency timestamps, and filter match counts.
+#
+# NOTE: This is intentionally an in-memory list, not a database, since the deliverable
+# only requires it to survive a single live testing/focus-group session. Restarting
+# the Flask server clears it — call POST /api/analytics/reset to clear it manually
+# between test rounds without restarting the server.
+# =====================================================================================
+QUERY_LOG = []
 
 # =====================================================================================
 # MASTER DATABASE
@@ -1881,6 +1897,8 @@ def home():
 
 @app.route("/api/match", methods=['GET'])
 def match_opportunities():
+    _query_start_time = time.time()  # Member 5: API Latency benchmark (target < 50ms)
+
     try:
         age = int(request.args.get("age", 0))
     except ValueError:
@@ -1946,10 +1964,27 @@ def match_opportunities():
     # Most urgent deadlines surface first, supporting the deadline-tracking feature.
     filtered.sort(key=lambda x: x["days_remaining"])
 
+    _latency_ms = round((time.time() - _query_start_time) * 1000, 2)
+
+    # Member 5: log every query for the Focus Group & Simulation Protocol —
+    # captures query frequency, latency timestamps, and filter match counts.
+    QUERY_LOG.append({
+        "timestamp": date.today().isoformat() + "T" + time.strftime("%H:%M:%S"),
+        "age": age,
+        "income": income,
+        "state": state,
+        "category": category,
+        "type": scheme_type,
+        "latency_ms": _latency_ms,
+        "results_count": len(filtered),
+        "success": len(filtered) > 0,
+    })
+
     return jsonify({
         "success": True,
         "count": len(filtered),
-        "matches": filtered
+        "matches": filtered,
+        "latency_ms": _latency_ms
     })
 
 
@@ -1984,5 +2019,70 @@ def download_checklist(scheme_id):
     )
 
 
+@app.route("/api/analytics", methods=['GET'])
+def analytics():
+    """
+    Member 5 — Quantitative Analytics & Simulation Lead.
+
+    Aggregates the live QUERY_LOG into the metrics required for the CIA
+    performance table and the Focus Group & Simulation Protocol:
+      - total_queries              -> query frequency
+      - average_latency_ms         -> API Latency benchmark (target < 50ms)
+      - search_success_rate_percent-> Search Success Rate benchmark (target > 85%)
+      - most_searched_state/category/type -> traffic pattern breakdown
+      - recent_queries             -> raw log for manual review during a live session
+    """
+    total_queries = len(QUERY_LOG)
+
+    if total_queries == 0:
+        return jsonify({
+            "success": True,
+            "total_queries": 0,
+            "average_latency_ms": 0,
+            "search_success_rate_percent": 0,
+            "most_searched_state": None,
+            "most_searched_category": None,
+            "most_searched_type": None,
+            "recent_queries": []
+        })
+
+    average_latency_ms = round(
+        sum(q["latency_ms"] for q in QUERY_LOG) / total_queries, 2
+    )
+    successful_queries = sum(1 for q in QUERY_LOG if q["success"])
+    search_success_rate_percent = round((successful_queries / total_queries) * 100, 2)
+
+    state_counter = Counter(q["state"] for q in QUERY_LOG)
+    category_counter = Counter(q["category"] for q in QUERY_LOG)
+    type_counter = Counter(q["type"] for q in QUERY_LOG)
+
+    return jsonify({
+        "success": True,
+        "total_queries": total_queries,
+        "average_latency_ms": average_latency_ms,
+        "search_success_rate_percent": search_success_rate_percent,
+        "most_searched_state": state_counter.most_common(1)[0][0],
+        "most_searched_category": category_counter.most_common(1)[0][0],
+        "most_searched_type": type_counter.most_common(1)[0][0],
+        # Most recent 20 queries — enough to eyeball during a live focus-group session
+        # without the payload growing unbounded over a long testing run.
+        "recent_queries": QUERY_LOG[-20:]
+    })
+
+
+@app.route("/api/analytics/reset", methods=['POST'])
+def reset_analytics():
+    """
+    Clears QUERY_LOG without restarting the server — use this right before starting
+    a fresh focus-group / simulation round so old traffic doesn't skew the metrics.
+    """
+    QUERY_LOG.clear()
+    return jsonify({"success": True, "message": "Analytics log cleared."})
+
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    import os
+    # Render (and most PaaS hosts) inject the port to bind to via the PORT env var.
+    # Falls back to 5000 for local development where PORT isn't set.
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
